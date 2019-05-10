@@ -1,7 +1,26 @@
 {
   "name": "vuetify-money",
+  "description": "Money to vuetify.",
+  "readmeFilename": "README.md",
+  "keywords": [
+    "vuejs",
+    "vuetify",
+    "v-text-field",
+    "money",
+    "currency",
+    "decimal"
+  ],
   "version": "0.1.0",
-  "private": true,
+  "author": {
+    "name": "Juarez Nasato",
+    "email": "juareznasato@gmail.com",
+    "homepage": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juareznasato/vuetify-money.git"
+  },
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -21,5 +40,10 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "vue-template-compiler": "^2.5.21"
-  }
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "main": "index.js"
 }
