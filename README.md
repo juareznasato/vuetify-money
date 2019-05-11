@@ -14,30 +14,6 @@ Works fine with Chrome and Firefox. Others not tested.
 Use:
 
 ```
-$ npm install vuetify-money --save
-
-<template>
-  <div>
-    <VuetifyMoney v-model="value" label="Money Value" v-bind:config="config"/>
-    v-model value: {{ value }}
-  </div>
-</template>
-<script>
-export default {
-  data: () => ({
-    value: "12345678.90",
-    config: {
-      locale: "pt-BR",
-      prefix: "R$",
-      precision: 2
-    }
-  })
-};
-</script>
-```
-or
-
-```
 <template>
   <div>
     <VuetifyMoney v-model="value" label="Money Value" v-bind:config="config"/>
