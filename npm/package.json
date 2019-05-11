@@ -1,0 +1,33 @@
+{
+  "name": "vuetify-money-test3",
+  "version": "0.1.0",
+  "description": "Money component to vuetify.",
+  "author": {
+    "name": "Juarez Nasato",
+    "email": "juareznasato@gmail.com"
+  },
+  "keywords": [
+    "vuejs",
+    "vuetify",
+    "v-text-field",
+    "money",
+    "currency",
+    "decimal"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juareznasato/vuetify-money.git"
+  },
+  "private": false,
+  "dependencies": {
+    "core-js": "^2.6.5",
+    "vue": "^2.6.10",
+    "vuetify": "^1.5.14"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "readmeFilename": "README.md",
+  "main": "index.js"
+}
