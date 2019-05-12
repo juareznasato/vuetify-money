@@ -73,4 +73,5 @@ export default {
 };
 </script>
 ```
-$ npm publish ./npm
+$ npm login
+$ sh npm.sh
