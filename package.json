@@ -19,6 +19,11 @@
     "url": "https://github.com/juareznasato/vuetify-money.git"
   },
   "private": false,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
   "dependencies": {
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
