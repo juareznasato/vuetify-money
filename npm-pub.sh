@@ -28,6 +28,7 @@ echo
 echo "Copiando arquivos...";
 cp package.json npm;
 cp README.md npm;
+cp src/components/index.js npm;
 cp src/components/VuetifyMoney.vue npm;
 echo "Copiado.";
 if [ $1 = "-pk" ];
@@ -43,5 +44,8 @@ then
     npm publish ./npm;
     echo "Publicado."
 fi;
+echo "Excluindo arquivos...";
+rm npm/*
+echo "Arquivos excluidos.";
 echo "Fim.";
 

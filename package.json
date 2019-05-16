@@ -1,6 +1,6 @@
 {
   "name": "vuetify-money",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Money component to vuetify.",
   "author": {
     "name": "Juarez Nasato",
@@ -23,11 +23,6 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10",
-    "vuetify": "^1.5.14"
   },
   "license": "MIT",
   "engines": {
