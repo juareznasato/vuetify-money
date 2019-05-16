@@ -30,7 +30,7 @@ export default VuetifyMoney;
 Parent component:
 <template>
   <div>
-    <VuetifyMoney v-model="value" label="Money Value" v-bind:config="config"/>
+    <vuetify-money v-model="value" label="Money Value" v-bind:config="config"/>
     v-model value: {{ value }}
   </div>
 </template>
