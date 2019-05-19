@@ -22,7 +22,7 @@ export default {
       type: String,
       default: ""
     },
-    config: {
+    options: {
       type: Object,
       default: function() {
         return { locale: "pt-BR", prefix: "R$", precision: 2 };
@@ -66,13 +66,13 @@ export default {
           .replace(new RegExp(/[.]/, "g"), "")
           .replace(new RegExp(",", "g"), "");
         // Ajustar quantidade de zeros à esquerda
-        number = number.padStart(parseInt(this.config.precision) + 1, "0");
+        number = number.padStart(parseInt(this.options.precision) + 1, "0");
         // Incluir ponto na casa correta, conforme a precisão configurada
         number =
-          number.substring(0, number.length - parseInt(this.config.precision)) +
+          number.substring(0, number.length - parseInt(this.options.precision)) +
           "." +
           number.substring(
-            number.length - parseInt(this.config.precision),
+            number.length - parseInt(this.options.precision),
             number.length
           );
         if (isNaN(number)) {
@@ -87,13 +87,13 @@ export default {
       if (isNaN(number)) {
         number = "0";
       } else {
-        // number = Number(number).toLocaleString(this.config.locale, {maximumFractionDigits: 2, minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
-        number = Number(number).toLocaleString(this.config.locale, {
-          maximumFractionDigits: this.config.precision,
-          minimumFractionDigits: this.config.precision
+        // number = Number(number).toLocaleString(this.options.locale, {maximumFractionDigits: 2, minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
+        number = Number(number).toLocaleString(this.options.locale, {
+          maximumFractionDigits: this.options.precision,
+          minimumFractionDigits: this.options.precision
         });
       }
-      return this.config.prefix + " " + number;
+      return this.options.prefix + " " + number;
     }
   }
 };

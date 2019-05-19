@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <VuetifyMoney v-model="value" label="Money Value" v-bind:config="config"/>
+    <VuetifyMoney v-model="value" label="Money Value" v-bind:options="options"/>
     v-model value: {{ value }}
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
   },
   data: () => ({
     value: "12345678.90",
-    config: {
+    options: {
       locale: "pt-BR",
       prefix: "R$",
       precision: 2
