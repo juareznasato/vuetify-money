@@ -15,7 +15,7 @@ v-model
 - Works fine with Chrome and Firefox. Others not tested.
 
 ## Links
-<p><a href="https://59hh7.codesandbox.io/" target="_blank">See DEMO here</a></p>
+<p><a href="https://59hh7.codesandbox.io/" rel="nofollow">See DEMO here</a></p>
 <p><a href="https://github.com/juareznasato/vuetify-money" target="_blank">GitHub</a></p>
 <p><a href="https://www.npmjs.com/package/vuetify-money" target="_blank">npm</a></p>
 
