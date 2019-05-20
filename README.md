@@ -1,6 +1,6 @@
 # vuetify-money
 
-This component works with v-text-field (vuetify).
+This component works with vuetify. It uses v-text-field.
 
 v-text-field
 R$ 12.345.678,90
@@ -14,6 +14,11 @@ v-model
 - Accept copy/paste
 - Works fine with Chrome and Firefox. Others not tested.
 
+## Links
+<p><a href="https://59hh7.codesandbox.io/" target="_blank">See DEMO here</a></p>
+<p><a href="https://github.com/juareznasato/vuetify-money" target="_blank">GitHub</a></p>
+<p><a href="https://www.npmjs.com/package/vuetify-money" target="_blank">npm</a></p>
+
 ## Usage:
 
 ### Globally
@@ -22,15 +27,18 @@ Install:
 $ npm install vuetify-money --save
 
 Register component:
+1- Create a src/modules/vuetify-money.js file with the following content:
 import Vue from "vue";
 import VuetifyMoney from "vuetify-money";
 Vue.use(VuetifyMoney);
 export default VuetifyMoney;
+2- Add to src/mains.js file:
+import "./modules/vuetify-money.js";
 
 Parent component:
 <template>
   <div>
-    <vuetify-money v-model="value" label="Money Value" v-bind:config="config"/>
+    <vuetify-money v-model="value" label="Money Value" v-bind:options="options"/>
     v-model value: {{ value }}
   </div>
 </template>
@@ -38,7 +46,7 @@ Parent component:
 export default {
   data: () => ({
     value: "12345678.90",
-    config: {
+    options: {
       locale: "pt-BR",
       prefix: "R$",
       precision: 2
@@ -52,7 +60,7 @@ export default {
 ```
 <template>
   <div>
-    <VuetifyMoney v-model="value" label="Money Value" v-bind:config="config"/>
+    <VuetifyMoney v-model="value" label="Money Value" v-bind:options="options"/>
     v-model value: {{ value }}
   </div>
 </template>
@@ -64,7 +72,7 @@ export default {
   },
   data: () => ({
     value: "12345678.90",
-    config: {
+    options: {
       locale: "pt-BR",
       prefix: "R$",
       precision: 2
@@ -73,5 +81,3 @@ export default {
 };
 </script>
 ```
-$ npm login
-$ sh npm.sh
