@@ -17,11 +17,11 @@ export default {
     VuetifyMoney
   },
   data: () => ({
-    value: "12345678.900",
+    value: 12345678.40,
     options: {
       locale: "pt-BR",
       prefix: "R$",
-      precision: 3
+      precision: 2
     }
   })
 };

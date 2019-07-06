@@ -15,6 +15,7 @@ export default {
   model: { prop: "value", event: "input" },
   props: {
     value: {
+      // type: String,
       type: [String, Number],
       default: "0"
     },
@@ -39,8 +40,10 @@ export default {
        Ao digitar no v-text-field o valor é manipulado para NNNNNN.NN, emitido para o componente pai e retorna pelo prop, parando novamente aqui, formatado.
     */
     compValue() {
-      // this.humanFormat(this.value) necessario quando number
-      return (this.modValue = this.humanFormat(this.machineFormat(this.humanFormat(this.value))));
+      // String only
+      // return (this.modValue = this.humanFormat(this.machineFormat(this.value)));
+      // String and Number
+      return (this.modValue = this.humanFormat(this.machineFormat(this.humanFormat(this.value.toString()))));
     }
   },
   methods: {
