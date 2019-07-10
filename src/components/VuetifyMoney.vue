@@ -43,7 +43,7 @@ export default {
       // String only
       // return (this.modValue = this.humanFormat(this.machineFormat(this.value)));
       // String and Number
-      return (this.modValue = this.humanFormat(this.machineFormat(this.humanFormat(this.value.toString()))));
+      return (this.modValue = this.humanFormat(this.machineFormat(this.humanFormat(this.value))));
     }
   },
   methods: {
