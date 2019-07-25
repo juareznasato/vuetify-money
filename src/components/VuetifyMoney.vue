@@ -6,6 +6,9 @@
       v-bind:value="compValue"
       v-on:keypress="onlyNumber"
       v-on:keyup="emit"
+      :disabled="disabled"
+      @click="$emit('click')"
+      @input="$emit('input')"
     ></v-text-field>
   </div>
 </template>
@@ -28,6 +31,10 @@ export default {
       default: function() {
         return { locale: "pt-BR", prefix: "R$", precision: 2 };
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
