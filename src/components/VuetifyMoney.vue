@@ -7,8 +7,11 @@
       v-on:keypress="onlyNumber"
       v-on:keyup="emit"
       :disabled="disabled"
-      @click="$emit('click')"
+      @change="$emit('change')"
       @input="$emit('input')"
+      @keydown="$emit('keydown')"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
     ></v-text-field>
   </div>
 </template>
