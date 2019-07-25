@@ -6,6 +6,12 @@
       v-bind:value="compValue"
       v-on:keypress="onlyNumber"
       v-on:keyup="emit"
+      :disabled="disabled"
+      @change="$emit('change')"
+      @input="$emit('input')"
+      @keydown="$emit('keydown')"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
     ></v-text-field>
   </div>
 </template>
@@ -28,6 +34,10 @@ export default {
       default: function() {
         return { locale: "pt-BR", prefix: "R$", precision: 2 };
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
