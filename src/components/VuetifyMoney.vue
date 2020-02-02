@@ -32,7 +32,7 @@ export default {
     },
     disabled: {
       type: Boolean,
-      default: true
+      default: false
     },
     options: {
       type: Object,
