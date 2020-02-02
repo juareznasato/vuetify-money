@@ -1,7 +1,8 @@
 // Styles
-import '../../stylus/components/_sheet.styl'
+import './VSheet.sass'
 
 // Mixins
+import BindsAttrs from '../../mixins/binds-attrs'
 import Colorable from '../../mixins/colorable'
 import Elevatable from '../../mixins/elevatable'
 import Measurable from '../../mixins/measurable'
@@ -15,6 +16,7 @@ import { VNode } from 'vue'
 
 /* @vue/component */
 export default mixins(
+  BindsAttrs,
   Colorable,
   Elevatable,
   Measurable,
@@ -25,9 +27,9 @@ export default mixins(
   props: {
     tag: {
       type: String,
-      default: 'div'
+      default: 'div',
     },
-    tile: Boolean
+    tile: Boolean,
   },
 
   computed: {
@@ -36,19 +38,19 @@ export default mixins(
         'v-sheet': true,
         'v-sheet--tile': this.tile,
         ...this.themeClasses,
-        ...this.elevationClasses
+        ...this.elevationClasses,
       }
     },
     styles (): object {
       return this.measurableStyles
-    }
+    },
   },
 
   render (h): VNode {
     const data = {
       class: this.classes,
       style: this.styles,
-      on: this.$listeners
+      on: this.listeners$,
     }
 
     return h(
@@ -56,5 +58,5 @@ export default mixins(
       this.setBackgroundColor(this.color, data),
       this.$slots.default
     )
-  }
+  },
 })

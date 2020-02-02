@@ -6,12 +6,9 @@
       v-bind:value="compValue"
       v-on:keypress="onlyNumber"
       v-on:keyup="emit"
-      :disabled="disabled"
-      @change="$emit('change')"
-      @input="$emit('input')"
-      @keydown="$emit('keydown')"
-      @focus="$emit('focus')"
-      @blur="$emit('blur')"
+      v-bind:disabled="disabled"
+      v-bind:outlined="outlined"
+      maxlength="21"
     ></v-text-field>
   </div>
 </template>
@@ -27,17 +24,21 @@ export default {
     },
     label: {
       type: String,
-      default: ""
+      default: "Value"
+    },
+    outlined: {
+      type: Boolean,
+      default: true
+    },
+    disabled: {
+      type: Boolean,
+      default: true
     },
     options: {
       type: Object,
       default: function() {
         return { locale: "pt-BR", prefix: "R$", precision: 2 };
       }
-    },
-    disabled: {
-      type: Boolean,
-      default: false
     }
   },
   data: () => ({
@@ -53,7 +54,10 @@ export default {
       // String only
       // return (this.modValue = this.humanFormat(this.machineFormat(this.value)));
       // String and Number
-      return (this.modValue = this.humanFormat(this.machineFormat(this.humanFormat(this.value))));
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      return (this.modValue = this.humanFormat(
+        this.machineFormat(this.humanFormat(this.value))
+      ));
     }
   },
   methods: {
@@ -83,7 +87,10 @@ export default {
         number = number.padStart(parseInt(this.options.precision) + 1, "0");
         // Incluir ponto na casa correta, conforme a precisão configurada
         number =
-          number.substring(0, number.length - parseInt(this.options.precision)) +
+          number.substring(
+            0,
+            number.length - parseInt(this.options.precision)
+          ) +
           "." +
           number.substring(
             number.length - parseInt(this.options.precision),
@@ -112,4 +119,3 @@ export default {
   }
 };
 </script>
-

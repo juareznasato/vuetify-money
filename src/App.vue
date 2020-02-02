@@ -1,11 +1,15 @@
 <template>
-  <v-app id="inspire">
-    <v-toolbar dark app fixed clipped-left color="cyan"></v-toolbar>
-    <v-content>
-      <VuetifyMoney v-model="value" label="Money Value" v-bind:options="options"/>
-      v-model value: {{ value }}
-    </v-content>
-  </v-app>
+  <div id="app">
+    <br />
+    <VuetifyMoney
+      v-model="value"
+      v-bind:label="label"
+      v-bind:disabled="disabled"
+      v-bind:outlined="outlined"
+      v-bind:options="options"
+    />
+    v-model value: {{ value }}
+  </div>
 </template>
 
 <script>
@@ -17,7 +21,10 @@ export default {
     VuetifyMoney
   },
   data: () => ({
-    value: 12345678.40,
+    value: 12345678.4,
+    label: "Valor",
+    disabled: false,
+    outlined: true,
     options: {
       locale: "pt-BR",
       prefix: "R$",

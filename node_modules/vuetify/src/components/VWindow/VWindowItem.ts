@@ -10,53 +10,56 @@ import Touch from '../../directives/touch'
 
 // Utilities
 import { convertToUnit } from '../../util/helpers'
-import { ExtractVue } from './../../util/mixins'
-import mixins from '../../util/mixins'
+import mixins, { ExtractVue } from '../../util/mixins'
 
 // Types
-import Vue, { VNode } from 'vue'
+import { VNode } from 'vue'
 
-type VBaseWindow = InstanceType<typeof VWindow>
-
-interface options extends Vue {
-  $el: HTMLElement
-  windowGroup: VBaseWindow
-}
-
-export default mixins<options & ExtractVue<[typeof Bootable]>>(
+const baseMixins = mixins(
   Bootable,
   GroupableFactory('windowGroup', 'v-window-item', 'v-window')
+)
+
+interface options extends ExtractVue<typeof baseMixins> {
+  $el: HTMLElement
+  windowGroup: InstanceType<typeof VWindow>
+}
+
+export default baseMixins.extend<options>().extend(
   /* @vue/component */
 ).extend({
   name: 'v-window-item',
 
   directives: {
-    Touch
+    Touch,
   },
 
   props: {
+    disabled: Boolean,
     reverseTransition: {
       type: [Boolean, String],
-      default: undefined
+      default: undefined,
     },
     transition: {
       type: [Boolean, String],
-      default: undefined
+      default: undefined,
     },
     value: {
-      required: false
-    }
+      required: false,
+    },
   },
 
   data () {
     return {
-      done: null as null | (() => void),
       isActive: false,
-      wasCancelled: false
+      inTransition: false,
     }
   },
 
   computed: {
+    classes (): object {
+      return this.groupClasses
+    },
     computedTransition (): string | boolean {
       if (!this.windowGroup.internalReverse) {
         return typeof this.transition !== 'undefined'
@@ -67,93 +70,92 @@ export default mixins<options & ExtractVue<[typeof Bootable]>>(
       return typeof this.reverseTransition !== 'undefined'
         ? this.reverseTransition || ''
         : this.windowGroup.computedTransition
-    }
-  },
-
-  mounted () {
-    this.$el.addEventListener('transitionend', this.onTransitionEnd, false)
-  },
-
-  beforeDestroy () {
-    this.$el.removeEventListener('transitionend', this.onTransitionEnd, false)
+    },
   },
 
   methods: {
     genDefaultSlot () {
       return this.$slots.default
     },
-    onAfterEnter () {
-      if (this.wasCancelled) {
-        this.wasCancelled = false
+    genWindowItem () {
+      return this.$createElement('div', {
+        staticClass: 'v-window-item',
+        class: this.classes,
+        directives: [{
+          name: 'show',
+          value: this.isActive,
+        }],
+        on: this.$listeners,
+      }, this.showLazyContent(this.genDefaultSlot()))
+    },
+    onAfterTransition () {
+      if (!this.inTransition) {
         return
       }
 
-      requestAnimationFrame(() => {
-        this.windowGroup.internalHeight = undefined
-        this.windowGroup.isActive = false
+      // Finalize transition state.
+      this.inTransition = false
+      if (this.windowGroup.transitionCount > 0) {
+        this.windowGroup.transitionCount--
+
+        // Remove container height if we are out of transition.
+        if (this.windowGroup.transitionCount === 0) {
+          this.windowGroup.transitionHeight = undefined
+        }
+      }
+    },
+    onBeforeTransition () {
+      if (this.inTransition) {
+        return
+      }
+
+      // Initialize transition state here.
+      this.inTransition = true
+      if (this.windowGroup.transitionCount === 0) {
+        // Set initial height for height transition.
+        this.windowGroup.transitionHeight = convertToUnit(this.windowGroup.$el.clientHeight)
+      }
+      this.windowGroup.transitionCount++
+    },
+    onTransitionCancelled () {
+      this.onAfterTransition() // This should have the same path as normal transition end.
+    },
+    onEnter (el: HTMLElement) {
+      if (!this.inTransition) {
+        return
+      }
+
+      this.$nextTick(() => {
+        // Do not set height if no transition or cancelled.
+        if (!this.computedTransition || !this.inTransition) {
+          return
+        }
+
+        // Set transition target height.
+        this.windowGroup.transitionHeight = convertToUnit(el.clientHeight)
       })
     },
-    onBeforeEnter () {
-      this.windowGroup.isActive = true
-    },
-    onLeave (el: HTMLElement) {
-      this.windowGroup.internalHeight = convertToUnit(el.clientHeight)
-    },
-    onEnterCancelled () {
-      this.wasCancelled = true
-    },
-    onEnter (el: HTMLElement, done: () => void) {
-      const isBooted = this.windowGroup.isBooted
-
-      if (isBooted) this.done = done
-
-      requestAnimationFrame(() => {
-        if (!this.computedTransition) return done()
-
-        this.windowGroup.internalHeight = convertToUnit(el.clientHeight)
-
-        // On initial render, there is no transition
-        // Vue leaves a `enter` transition class
-        // if done is called too fast
-        !isBooted && setTimeout(done, 100)
-      })
-    },
-    onTransitionEnd (e: TransitionEvent) {
-      // This ensures we only call done
-      // when the element transform
-      // completes
-      if (
-        e.propertyName !== 'transform' ||
-        e.target !== this.$el ||
-        !this.done
-      ) return
-
-      this.done()
-      this.done = null
-    }
   },
 
   render (h): VNode {
-    const div = h('div', {
-      staticClass: 'v-window-item',
-      directives: [{
-        name: 'show',
-        value: this.isActive
-      }],
-      on: this.$listeners
-    }, this.showLazyContent(this.genDefaultSlot()))
-
     return h('transition', {
       props: {
-        name: this.computedTransition
+        name: this.computedTransition,
       },
       on: {
-        afterEnter: this.onAfterEnter,
-        beforeEnter: this.onBeforeEnter,
-        leave: this.onLeave,
+        // Handlers for enter windows.
+        beforeEnter: this.onBeforeTransition,
+        afterEnter: this.onAfterTransition,
+        enterCancelled: this.onTransitionCancelled,
+
+        // Handlers for leave windows.
+        beforeLeave: this.onBeforeTransition,
+        afterLeave: this.onAfterTransition,
+        leaveCancelled: this.onTransitionCancelled,
+
+        // Enter handler for height transition.
         enter: this.onEnter,
-        enterCancelled: this.onEnterCancelled
-      }
-    }, [div])
-  }
+      },
+    }, [this.genWindowItem()])
+  },
 })

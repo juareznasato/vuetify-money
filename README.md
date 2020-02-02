@@ -10,10 +10,7 @@ v-model
 
 ## Dependency
 - VueJS
-- Vuetify
-
-## Events
-change, input, keydown, focus, blur.
+- Vuetify 2.x
 
 ## Links
 <p><a href="https://59hh7.codesandbox.io/">See DEMO here</a></p>
@@ -37,7 +34,12 @@ import "./modules/vuetify-money.js";
 Parent component:
 <template>
   <div>
-    <vuetify-money v-model="value" label="Money Value" disabled="false" v-bind:options="options"/>
+    <vuetify-money 
+      v-model="value" 
+      v-bind:label="label"
+      v-bind:disabled="disabled"
+      v-bind:outlined="outlined"
+      disabled="false" v-bind:options="options"/>
     v-model value: {{ value }}
   </div>
 </template>
@@ -45,6 +47,9 @@ Parent component:
 export default {
   data: () => ({
     value: 12345678.90,   // Number or String
+    label: "Value",
+    disabled: false,
+    outlined: true,
     options: {
       locale: "pt-BR",
       prefix: "R$",

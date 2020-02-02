@@ -10,12 +10,12 @@ module.exports = (api, options) => {
         '--plugin <pluginName>': 'inspect a specific plugin',
         '--rules': 'list all module rule names',
         '--plugins': 'list all plugin names',
-        '--verbose': 'show full function definitions in output'
+        '--verbose': 'show full function definitions in output',
+        '--skip-plugins': 'comma-separated list of plugin names to skip for this run'
       }
     },
     args => {
-      const chalk = require('chalk')
-      const { get } = require('@vue/cli-shared-utils')
+      const { chalk, get } = require('@vue/cli-shared-utils')
       const { toString } = require('webpack-chain')
       const { highlight } = require('cli-highlight')
       const config = api.resolveWebpackConfig()
