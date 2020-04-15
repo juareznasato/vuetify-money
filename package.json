@@ -1,6 +1,6 @@
 {
   "name": "vuetify-money",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Money component for vuetify 2.x.",
   "author": {
     "name": "Juarez Nasato",
@@ -33,6 +33,7 @@
     "vuetify": "^2.2.8"
   },
   "devDependencies": {
+    "@mdi/font": "^5.0.45",
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-eslint": "^4.1.0",
     "@vue/cli-service": "^4.1.0",

@@ -1,14 +1,17 @@
 <template>
   <div>
     <v-text-field
-      v-model="modValue"
+      placeholder=" "
+      v-model="cmpValue"
       v-bind:label="label"
-      v-bind:value="compValue"
-      v-on:keypress="onlyNumber"
-      v-on:keyup="emit"
+      v-bind:readonly="readonly"
       v-bind:disabled="disabled"
       v-bind:outlined="outlined"
-      maxlength="21"
+      v-bind:clearable="clearable"
+      v-bind:backgroundColor="backgroundColor"
+      v-bind:prefix="options.prefix"
+      v-bind:suffix="options.suffix"
+      v-on:keypress="keyPress"
     ></v-text-field>
   </div>
 </template>
@@ -26,63 +29,74 @@ export default {
       type: String,
       default: "Value"
     },
-    outlined: {
+    readonly: {
       type: Boolean,
-      default: true
+      default: false
     },
     disabled: {
       type: Boolean,
       default: false
     },
+    outlined: {
+      type: Boolean,
+      default: true
+    },
+    clearable: {
+      type: Boolean,
+      default: true
+    },
+    backgroundColor: {
+      type: String,
+      default: "white"
+    },
     options: {
       type: Object,
       default: function() {
-        return { locale: "pt-BR", prefix: "R$", precision: 2 };
+        return {
+          locale: "pt-BR",
+          prefix: "",
+          suffix: "",
+          length: 11,
+          precision: 2
+        };
       }
     }
   },
-  data: () => ({
-    modValue: ""
-  }),
+  data: () => ({}),
+  /*
+   v-model="cmpValue": Dessa forma, ao digitar, o valor é atualizado automaticamente no componente pai.
+   O valor digitado entra pelo newValue do Set e é emitido para o componente pai.
+   the-vue-mask nao funciona corretamente ao incluir valores existentes no componente pai.
+  */
   computed: {
-    /* Lógica:
-       compValue é o ponto de parada
-       O valor entra pelo prop e pára aqui, formatado.
-       Ao digitar no v-text-field o valor é manipulado para NNNNNN.NN, emitido para o componente pai e retorna pelo prop, parando novamente aqui, formatado.
-    */
-    compValue() {
-      // String only
-      // return (this.modValue = this.humanFormat(this.machineFormat(this.value)));
-      // String and Number
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      return (this.modValue = this.humanFormat(
-        this.machineFormat(this.humanFormat(this.value))
-      ));
+    cmpValue: {
+      get: function() {
+        return this.value.toString()
+          ? this.humanFormat(this.value.toString())
+          : null;
+      },
+      set: function(newValue) {
+        this.$emit("input", this.machineFormat(newValue));
+      }
     }
   },
   methods: {
-    onlyNumber($event) {
-      // console.log($event.keyCode); //keyCodes value
-      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
-      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
-        // 46 is dot
-        $event.preventDefault();
+    humanFormat: function(number) {
+      if (isNaN(number)) {
+        number = ""; // 0 anteriormente
+      } else {
+        // number = Number(number).toLocaleString(this.options.locale, {maximumFractionDigits: 2, minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
+        number = Number(number).toLocaleString(this.options.locale, {
+          maximumFractionDigits: this.options.precision,
+          minimumFractionDigits: this.options.precision
+        });
       }
+      // return this.options.prefix + number + this.options.suffix;
+      return number;
     },
-    emit() {
-      this.$emit("input", this.machineFormat(this.modValue));
-    },
-    /* Formatar no padrão NNNNNN.NN */
     machineFormat(number) {
       if (number) {
-        // Retirar prefixo
-        if (number.includes(" ")) {
-          number = number.split(" ")[1];
-        }
-        // Retirar pontos e virgulas
-        number = number
-          .replace(new RegExp(/[.]/, "g"), "")
-          .replace(new RegExp(",", "g"), "");
+        number = this.cleanNumber(number);
         // Ajustar quantidade de zeros à esquerda
         number = number.padStart(parseInt(this.options.precision) + 1, "0");
         // Incluir ponto na casa correta, conforme a precisão configurada
@@ -97,24 +111,64 @@ export default {
             number.length
           );
         if (isNaN(number)) {
-          number = "0";
+          number = ""; // 0 anteriormente
         }
       } else {
-        number = "0";
+        number = ""; // 0 anteriormente
+      }
+      if (this.options.precision === 0) {
+        number = this.cleanNumber(number);
       }
       return number;
     },
-    humanFormat: function(number) {
-      if (isNaN(number)) {
-        number = "0";
-      } else {
-        // number = Number(number).toLocaleString(this.options.locale, {maximumFractionDigits: 2, minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
-        number = Number(number).toLocaleString(this.options.locale, {
-          maximumFractionDigits: this.options.precision,
-          minimumFractionDigits: this.options.precision
-        });
+    keyPress($event) {
+      // console.log($event.keyCode); //keyCodes value
+      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
+      // if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+      if (keyCode < 48 || keyCode > 57) {
+        // 46 is dot
+        $event.preventDefault();
       }
-      return this.options.prefix + " " + number;
+      if (this.targetLength()) {
+        $event.preventDefault();
+      }
+    },
+    // Retira todos os caracteres não numéricos e zeros à esquerda
+    cleanNumber: function(value) {
+      let flag = false;
+      let result = "";
+      let arrayValue = value.toString().split("");
+      for (var i = 0; i < arrayValue.length; i++) {
+        if (this.isInteger(arrayValue[i])) {
+          if (!flag) {
+            // Retirar zeros à esquerda
+            if (arrayValue[i] !== "0") {
+              result = result + arrayValue[i];
+              flag = true;
+            }
+          } else {
+            result = result + arrayValue[i];
+          }
+        }
+      }
+      return result;
+    },
+    isInteger(value) {
+      let result = false;
+      if (Number.isInteger(parseInt(value))) {
+        result = true;
+      }
+      return result;
+    },
+    targetLength() {
+      if (
+        Number(this.cleanNumber(this.value).length) >=
+        Number(this.options.length)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
