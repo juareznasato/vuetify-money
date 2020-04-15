@@ -34,7 +34,7 @@ import "./plugins/vuetify-money.js";
 Parent component:
 <template>
   <div>
-    <vuetify-number
+    <vuetify-money
       v-model="value"
       v-bind:label="label"
       v-bind:readonly="readonly"

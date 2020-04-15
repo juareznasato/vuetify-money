@@ -31,7 +31,7 @@ echo "Copiando arquivos...";
 cp package.json npm;
 cp README.md npm;
 cp src/components/index.js npm;
-cp src/components/VuetifyNumber.vue npm;
+cp src/components/VuetifyMoney.vue npm;
 echo "Copiado.";
 if [ $1 = "-pk" ];
 then
