@@ -1,12 +1,16 @@
 <template>
   <div>
     <v-text-field
-      placeholder=" "
+      v-bind:placeholder="placeholder"
       v-model="cmpValue"
       v-bind:label="label"
       v-bind:readonly="readonly"
       v-bind:disabled="disabled"
       v-bind:outlined="outlined"
+      v-bind:dense="dense"
+      v-bind:hide-details="hideDetails"
+      v-bind:error="error"
+      v-bind:rules="rules"
       v-bind:clearable="clearable"
       v-bind:backgroundColor="backgroundColor"
       v-bind:prefix="options.prefix"
@@ -27,11 +31,31 @@ export default {
     },
     label: {
       type: String,
-      default: "Value"
+      default: ""
+    },
+    placeholder: {
+      type: String,
+      default: undefined
     },
     readonly: {
       type: Boolean,
       default: false
+    },
+    dense: {
+      type: Boolean,
+      default: false
+    },
+    error: {
+      type: Boolean,
+      default: false
+    },
+    hideDetails: {
+      type: [Boolean, String],
+      default: undefined
+    },
+    rules: {
+      type: [Array, String],
+      default: () => []
     },
     disabled: {
       type: Boolean,
