@@ -37,6 +37,7 @@ Parent component:
     <vuetify-money
       v-model="value"
       v-bind:label="label"
+      v-bind:placeholder="placeholder"
       v-bind:readonly="readonly"
       v-bind:disabled="disabled"
       v-bind:outlined="outlined"
@@ -51,6 +52,7 @@ export default {
   data: () => ({
     value: "1234567.89",
     label: "Value",
+    placeholder: " ",
     readonly: false,
     disabled: false,
     outlined: true,

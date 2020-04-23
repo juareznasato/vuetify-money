@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-text-field
-      v-bind:placeholder="placeholder"
       v-model="cmpValue"
       v-bind:label="label"
+      v-bind:placeholder="placeholder"
       v-bind:readonly="readonly"
       v-bind:disabled="disabled"
       v-bind:outlined="outlined"
