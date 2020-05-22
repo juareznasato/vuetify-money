@@ -51,7 +51,7 @@ export default {
     },
     hideDetails: {
       type: [Boolean, String],
-      default: undefined
+      default: false
     },
     rules: {
       type: [Array, String],
@@ -63,11 +63,11 @@ export default {
     },
     outlined: {
       type: Boolean,
-      default: true
+      default: false
     },
     clearable: {
       type: Boolean,
-      default: true
+      default: false
     },
     backgroundColor: {
       type: String,
