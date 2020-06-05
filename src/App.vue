@@ -57,7 +57,7 @@ export default {
     disabled1: false,
     outlined1: true,
     clearable1: true,
-    valueWhenIsEmpty1: "",  // "0" or "" or null
+    valueWhenIsEmpty1: "",  // "0" or "" or null 
     options1: {
       locale: "pt-BR",
       prefix: "R$",

@@ -75,7 +75,7 @@ export default {
     },
     valueWhenIsEmpty: {
       type: String,
-      default: ""  // "0" or "" or null
+      default: ""  // "0" or "" or null 
     },
     options: {
       type: Object,
