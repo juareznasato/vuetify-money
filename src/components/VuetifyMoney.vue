@@ -73,6 +73,10 @@ export default {
       type: String,
       default: "white"
     },
+    valueWhenIsEmpty: {
+      type: String,
+      default: ""  // "0" or "" or null
+    },
     options: {
       type: Object,
       default: function() {
@@ -83,8 +87,8 @@ export default {
           length: 11,
           precision: 2
         };
-      }
-    }
+      },
+    },
   },
   data: () => ({}),
   /*
@@ -95,27 +99,26 @@ export default {
   computed: {
     cmpValue: {
       get: function() {
-        return this.value.toString()
+        return this.value !== null && this.value !== ""
           ? this.humanFormat(this.value.toString())
-          : null;
+          : this.valueWhenIsEmpty;
       },
       set: function(newValue) {
         this.$emit("input", this.machineFormat(newValue));
-      }
-    }
+      },
+    },
   },
   methods: {
     humanFormat: function(number) {
       if (isNaN(number)) {
-        number = ""; // 0 anteriormente
+        number = "";
       } else {
         // number = Number(number).toLocaleString(this.options.locale, {maximumFractionDigits: 2, minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
         number = Number(number).toLocaleString(this.options.locale, {
           maximumFractionDigits: this.options.precision,
-          minimumFractionDigits: this.options.precision
+          minimumFractionDigits: this.options.precision,
         });
       }
-      // return this.options.prefix + number + this.options.suffix;
       return number;
     },
     machineFormat(number) {
@@ -135,10 +138,10 @@ export default {
             number.length
           );
         if (isNaN(number)) {
-          number = ""; // 0 anteriormente
+          number = this.valueWhenIsEmpty;
         }
       } else {
-        number = ""; // 0 anteriormente
+        number = this.valueWhenIsEmpty;
       }
       if (this.options.precision === 0) {
         number = this.cleanNumber(number);
@@ -159,19 +162,21 @@ export default {
     },
     // Retira todos os caracteres não numéricos e zeros à esquerda
     cleanNumber: function(value) {
-      let flag = false;
       let result = "";
-      let arrayValue = value.toString().split("");
-      for (var i = 0; i < arrayValue.length; i++) {
-        if (this.isInteger(arrayValue[i])) {
-          if (!flag) {
-            // Retirar zeros à esquerda
-            if (arrayValue[i] !== "0") {
+      if (value) {
+        let flag = false;
+        let arrayValue = value.toString().split("");
+        for (var i = 0; i < arrayValue.length; i++) {
+          if (this.isInteger(arrayValue[i])) {
+            if (!flag) {
+              // Retirar zeros à esquerda
+              if (arrayValue[i] !== "0") {
+                result = result + arrayValue[i];
+                flag = true;
+              }
+            } else {
               result = result + arrayValue[i];
-              flag = true;
             }
-          } else {
-            result = result + arrayValue[i];
           }
         }
       }
@@ -193,7 +198,7 @@ export default {
       } else {
         return false;
       }
-    }
-  }
+    },
+  },
 };
 </script>

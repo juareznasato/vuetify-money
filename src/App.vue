@@ -16,6 +16,7 @@
               v-bind:disabled="disabled1"
               v-bind:outlined="outlined1"
               v-bind:clearable="clearable1"
+              v-bind:valueWhenIsEmpty="valueWhenIsEmpty1"
               v-bind:options="options1"
             />
             Parent v-model: {{ value1 }}
@@ -30,6 +31,7 @@
               v-bind:disabled="disabled2"
               v-bind:outlined="outlined2"
               v-bind:clearable="clearable2"
+              v-bind:valueWhenIsEmpty="valueWhenIsEmpty2"
               v-bind:options="options2"
             />
             Parent v-model: {{ value2 }}
@@ -55,6 +57,7 @@ export default {
     disabled1: false,
     outlined1: true,
     clearable1: true,
+    valueWhenIsEmpty1: "",  // "0" or "" or null
     options1: {
       locale: "pt-BR",
       prefix: "R$",
@@ -69,6 +72,7 @@ export default {
     disabled2: false,
     outlined2: true,
     clearable2: true,
+    valueWhenIsEmpty2: "", // "0" or "" or null
     options2: {
       locale: "en-US",
       prefix: "U$",
