@@ -10,6 +10,7 @@
       v-bind:dense="dense"
       v-bind:hide-details="hideDetails"
       v-bind:error="error"
+      v-bind:error-messages="errorMessages"
       v-bind:rules="rules"
       v-bind:clearable="clearable"
       v-bind:backgroundColor="backgroundColor"
@@ -52,6 +53,10 @@ export default {
     hideDetails: {
       type: [Boolean, String],
       default: false
+    },
+    errorMessages: {
+      type: [Array, String],
+      default: () => []
     },
     rules: {
       type: [Array, String],
