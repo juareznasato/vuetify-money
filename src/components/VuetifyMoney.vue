@@ -2,20 +2,7 @@
   <div>
     <v-text-field
       v-model="cmpValue"
-      v-bind:label="label"
-      v-bind:placeholder="placeholder"
-      v-bind:readonly="readonly"
-      v-bind:disabled="disabled"
-      v-bind:outlined="outlined"
-      v-bind:dense="dense"
-      v-bind:hide-details="hideDetails"
-      v-bind:error="error"
-      v-bind:error-messages="errorMessages"
-      v-bind:rules="rules"
-      v-bind:clearable="clearable"
-      v-bind:backgroundColor="backgroundColor"
-      v-bind:prefix="options.prefix"
-      v-bind:suffix="options.suffix"
+      v-bind="$attrs"
       v-on:keypress="keyPress"
     ></v-text-field>
   </div>
@@ -30,54 +17,7 @@ export default {
       type: [String, Number],
       default: "0"
     },
-    label: {
-      type: String,
-      default: ""
-    },
-    placeholder: {
-      type: String,
-      default: undefined
-    },
-    readonly: {
-      type: Boolean,
-      default: false
-    },
-    dense: {
-      type: Boolean,
-      default: false
-    },
-    error: {
-      type: Boolean,
-      default: false
-    },
-    hideDetails: {
-      type: [Boolean, String],
-      default: false
-    },
-    errorMessages: {
-      type: [Array, String],
-      default: () => []
-    },
-    rules: {
-      type: [Array, String],
-      default: () => []
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    outlined: {
-      type: Boolean,
-      default: false
-    },
-    clearable: {
-      type: Boolean,
-      default: false
-    },
-    backgroundColor: {
-      type: String,
-      default: "white"
-    },
+   
     valueWhenIsEmpty: {
       type: String,
       default: ""  // "0" or "" or null 
