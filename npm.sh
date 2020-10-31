@@ -13,7 +13,7 @@
 ######################################################################
 #
 # --> COMANDOS <--
-# $ npm login               logar no npm
+# $ npm login           login in npm
 # $ sh npm.sh -pk       pack
 # $ sh npm.sh -pb       publish
 #
@@ -25,13 +25,10 @@ echo "\033[1;36m  #   ## #      #    #       #      #    # #    # \033[0m";
 echo "\033[1;36m  #    # #      #    #       #      #    # #    # \033[0m";
 echo "\033[1;36m  #    # #      #    #       #      ###### #####  \033[0m";
 echo
-echo "npm login...";
-npm login;
 echo "Copiando arquivos...";
 cp package.json npm;
 cp README.md npm;
-cp src/components/index.js npm;
-cp src/components/VuetifyMoney.vue npm;
+cp src/components/* npm;
 echo "Copiado.";
 if [ $1 = "-pk" ];
 then
@@ -42,6 +39,8 @@ fi;
 
 if [ $1 = "-pb" ];
 then
+    echo "npm login...";
+    npm login;
     echo "Publicando no npm...";
     npm publish ./npm;
     echo "Publicado."
