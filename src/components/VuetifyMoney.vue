@@ -16,6 +16,7 @@
       v-bind:backgroundColor="backgroundColor"
       v-bind:prefix="options.prefix"
       v-bind:suffix="options.suffix"
+      v-bind="properties"
       v-on:keypress="keyPress"
     ></v-text-field>
   </div>
@@ -92,6 +93,13 @@ export default {
           length: 11,
           precision: 2
         };
+      },
+    },
+    // Other v-text-field properties
+    properties: {
+      type: Object,
+      default: function() {
+        return {};
       },
     },
   },

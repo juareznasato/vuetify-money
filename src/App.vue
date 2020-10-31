@@ -18,6 +18,7 @@
               v-bind:clearable="clearable1"
               v-bind:valueWhenIsEmpty="valueWhenIsEmpty1"
               v-bind:options="options1"
+              v-bind:properties="properties1"
             />
             Parent v-model: {{ value1 }}
           </v-col>
@@ -33,6 +34,7 @@
               v-bind:clearable="clearable2"
               v-bind:valueWhenIsEmpty="valueWhenIsEmpty2"
               v-bind:options="options2"
+              v-bind:properties="properties2"
             />
             Parent v-model: {{ value2 }}
           </v-col>
@@ -65,6 +67,9 @@ export default {
       length: 11,
       precision: 2
     },
+    properties1: {
+      hint: "my hint 1"
+    },
 
     value2: "1250.03",
     label2: "Value en-US",
@@ -79,7 +84,10 @@ export default {
       suffix: "",
       length: 7,
       precision: 2
-    }
+    },
+    properties2: {
+      hint: "my hint 2"
+    },
 
   })
 };

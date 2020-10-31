@@ -44,6 +44,7 @@ Parent component:
       v-bind:clearable="clearable"
       v-bind:valueWhenIsEmpty="valueWhenIsEmpty"
       v-bind:options="options"
+      v-bind:properties="properties"
     />
     Parent v-model: {{ value }}
   </div>
@@ -58,14 +59,18 @@ export default {
     disabled: false,
     outlined: true,
     clearable: true,
-    valueWhenIsEmpty: ""
+    valueWhenIsEmpty: "",
     options: {
       locale: "pt-BR",
       prefix: "R$",
       suffix: "",
       length: 11,
       precision: 2
-    }
+    },
+    properties: {
+      hint: "my hint"
+      // You can add other v-text-field properties, here.
+    },
   })
 };
 </script>
@@ -157,6 +162,8 @@ export default {
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="left">value when TextField is empty. Ex: 0, “”, null</td>
 	</tr>
 </table>
+
+#### *** If you need to use other v-text-field properties, you can add them in properties object.
 
 ## Options
 
