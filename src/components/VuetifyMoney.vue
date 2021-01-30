@@ -18,6 +18,7 @@
       v-bind:suffix="options.suffix"
       v-bind="properties"
       v-on:keypress="keyPress"
+      v-on:blur="onBlur"
     ></v-text-field>
   </div>
 </template>
@@ -81,7 +82,16 @@ export default {
     },
     valueWhenIsEmpty: {
       type: String,
-      default: ""  // "0" or "" or null 
+      default: "" // "0" or "" or null
+    },
+    valueOptions: {
+      type: Object,
+      default: function() {
+        return {
+          min: 0,
+          minEvent: "SetValueMin"
+        };
+      }
     },
     options: {
       type: Object,
@@ -93,15 +103,15 @@ export default {
           length: 11,
           precision: 2
         };
-      },
+      }
     },
     // Other v-text-field properties
     properties: {
       type: Object,
       default: function() {
         return {};
-      },
-    },
+      }
+    }
   },
   data: () => ({}),
   /*
@@ -118,8 +128,8 @@ export default {
       },
       set: function(newValue) {
         this.$emit("input", this.machineFormat(newValue));
-      },
-    },
+      }
+    }
   },
   methods: {
     humanFormat: function(number) {
@@ -129,7 +139,7 @@ export default {
         // number = Number(number).toLocaleString(this.options.locale, {maximumFractionDigits: 2, minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
         number = Number(number).toLocaleString(this.options.locale, {
           maximumFractionDigits: this.options.precision,
-          minimumFractionDigits: this.options.precision,
+          minimumFractionDigits: this.options.precision
         });
       }
       return number;
@@ -212,6 +222,25 @@ export default {
         return false;
       }
     },
-  },
+    onBlur() {
+      if (
+        this.value.length === 0 ||
+        parseFloat(this.value) <= this.valueOptions.min
+      )
+        this.$emit(
+          this.valueOptions.minEvent || "SetValueMin",
+          this.valueOptions.min
+        );
+
+      if (
+        this.valueOptions.max &&
+        parseFloat(this.value) >= this.valueOptions.max
+      )
+        this.$emit(
+          this.valueOptions.maxEvent || "SetValueMax",
+          this.valueOptions.max
+        );
+    }
+  }
 };
 </script>

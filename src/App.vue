@@ -19,6 +19,9 @@
               v-bind:valueWhenIsEmpty="valueWhenIsEmpty1"
               v-bind:options="options1"
               v-bind:properties="properties1"
+              :valueOptions="valueOptions1"
+              v-on:CustomMinEvent="value1 = $event"
+              v-on:CustomMaxEvent="value1 = $event"
             />
             Parent v-model: {{ value1 }}
           </v-col>
@@ -59,7 +62,13 @@ export default {
     disabled1: false,
     outlined1: true,
     clearable1: true,
-    valueWhenIsEmpty1: "",  // "0" or "" or null 
+    valueWhenIsEmpty1: "", // "0" or "" or null
+    valueOptions1: {
+      min: 1000,
+      minEvent: "CustomMinEvent",
+      max: 10000,
+      maxEvent: "CustomMaxEvent"
+    },
     options1: {
       locale: "pt-BR",
       prefix: "R$",
@@ -87,8 +96,7 @@ export default {
     },
     properties2: {
       hint: "my hint 2"
-    },
-
+    }
   })
 };
 </script>
