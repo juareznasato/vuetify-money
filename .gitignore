@@ -17,3 +17,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+/git
+*.sh

@@ -18,7 +18,14 @@
       v-bind:suffix="options.suffix"
       v-bind="properties"
       v-on:keypress="keyPress"
-      v-on:blur="onBlur"
+      v-on:blur="onBlur, $emit('blur')"
+      v-on:change="$emit('change')"
+      v-on:click="$emit('click')"
+      v-on:focus="$emit('focus')"
+      v-on:keydown="$emit('keydown')"
+      v-on:mousedown="$emit('mousedown')"
+      v-on:mouseup="$emit('mouseup')"
+      ref="ref"
     ></v-text-field>
   </div>
 </template>
@@ -240,6 +247,9 @@ export default {
           this.valueOptions.maxEvent || "SetValueMax",
           this.valueOptions.max
         );
+    },
+    focus() {
+      this.$refs.ref.focus();
     }
   }
 };
