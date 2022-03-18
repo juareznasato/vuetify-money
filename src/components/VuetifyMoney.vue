@@ -78,7 +78,7 @@ export default {
     },
     backgroundColor: {
       type: String,
-      default: "white"
+      default: ""
     },
     valueWhenIsEmpty: {
       type: String,
